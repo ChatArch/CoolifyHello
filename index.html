@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11313a" />
+    <title>Harbor Signal - Coolify Demo</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap");
+
+      :root {
+        --ink: #11313a;
+        --ocean: #0f5966;
+        --foam: #d9f0e7;
+        --sun: #f8b454;
+        --paper: #f9f3e7;
+        --red: #d94d38;
+        --line: rgba(17, 49, 58, 0.16);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 13% 14%, rgba(248, 180, 84, 0.72), transparent 25rem),
+          radial-gradient(circle at 84% 20%, rgba(112, 194, 183, 0.55), transparent 28rem),
+          linear-gradient(135deg, #f7eee0 0%, #e9f4ed 52%, #d6ece9 100%);
+        font-family: "DM Mono", "SFMono-Regular", Consolas, monospace;
+      }
+
+      main {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: clamp(28px, 7vw, 88px) 0 44px;
+      }
+
+      nav,
+      .signal-card,
+      .logbook,
+      .footer-note { animation: reveal 760ms both; }
+      .signal-card { animation-delay: 100ms; }
+      .logbook { animation-delay: 210ms; }
+      .footer-note { animation-delay: 320ms; }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: clamp(44px, 9vw, 104px);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 500;
+      }
+
+      .beacon {
+        display: inline-grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        background: var(--sun);
+        box-shadow: 0 0 0 5px rgba(248, 180, 84, 0.27);
+      }
+
+      .beacon::after {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--ink);
+        content: "";
+      }
+
+      .status {
+        padding: 8px 11px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.45);
+      }
+
+      .status::before {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        margin-right: 7px;
+        border-radius: 50%;
+        background: #18835e;
+        box-shadow: 0 0 0 3px rgba(24, 131, 94, 0.14);
+        content: "";
+      }
+
+      .signal-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(210px, 0.6fr);
+        overflow: hidden;
+        border: 1px solid rgba(17, 49, 58, 0.24);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.62);
+        box-shadow: 14px 16px 0 rgba(17, 49, 58, 0.12);
+      }
+
+      .message { padding: clamp(26px, 5vw, 58px); }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: var(--red);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 670px;
+        margin: 0;
+        font-family: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
+        font-size: clamp(48px, 8vw, 94px);
+        font-weight: 700;
+        letter-spacing: -0.065em;
+        line-height: 0.91;
+      }
+
+      .lede {
+        max-width: 590px;
+        margin: 30px 0 0;
+        font-size: clamp(15px, 2vw, 18px);
+        line-height: 1.75;
+      }
+
+      .route {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 35px;
+        padding: 12px 15px;
+        border-radius: 10px;
+        color: var(--paper);
+        background: var(--ink);
+        font-size: 12px;
+      }
+
+      .route span { color: var(--sun); }
+
+      .poster {
+        position: relative;
+        min-height: 350px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+
+      .sun {
+        position: absolute;
+        top: 12%;
+        left: 50%;
+        width: 150px;
+        height: 150px;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: var(--sun);
+      }
+
+      .sea {
+        position: absolute;
+        right: -16%;
+        bottom: -10%;
+        left: -16%;
+        height: 58%;
+        border-radius: 52% 48% 0 0 / 19% 24% 0 0;
+        background: repeating-radial-gradient(ellipse at center, transparent 0 25px, rgba(217, 240, 231, 0.92) 27px 30px, transparent 32px 55px), var(--ocean);
+      }
+
+      .mast {
+        position: absolute;
+        bottom: 21%;
+        left: 50%;
+        width: 8px;
+        height: 48%;
+        transform: translateX(-50%);
+        border-radius: 99px;
+        background: var(--paper);
+      }
+
+      .mast::after {
+        position: absolute;
+        bottom: 0;
+        left: -28px;
+        width: 64px;
+        height: 54px;
+        transform: skewX(-16deg);
+        border: 5px solid var(--paper);
+        border-bottom: 0;
+        content: "";
+      }
+
+      .poster-label {
+        position: absolute;
+        right: 20px;
+        bottom: 18px;
+        color: var(--foam);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .logbook {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 36px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .entry { padding: 20px 22px 21px; }
+      .entry + .entry { border-left: 1px solid var(--line); }
+      .entry-label { display: block; margin-bottom: 8px; color: rgba(17, 49, 58, 0.66); font-size: 11px; text-transform: uppercase; }
+      .entry strong { font-size: 14px; font-weight: 500; }
+
+      .footer-note { margin: 32px 0 0; color: rgba(17, 49, 58, 0.76); font-size: 12px; line-height: 1.7; }
+
+      @keyframes reveal {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @media (max-width: 680px) {
+        main { width: min(100% - 28px, 1120px); }
+        nav { margin-bottom: 48px; }
+        .signal-card { grid-template-columns: 1fr; }
+        .poster { min-height: 275px; }
+        .logbook { grid-template-columns: 1fr; }
+        .entry + .entry { border-top: 1px solid var(--line); border-left: 0; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <nav aria-label="Deployment status">
+        <div class="brand"><span class="beacon" aria-hidden="true"></span> Harbor Signal</div>
+        <div class="status">Live on Coolify</div>
+      </nav>
+
+      <section class="signal-card" aria-labelledby="headline">
+        <div class="message">
+          <p class="eyebrow">Deployment log / Release 1</p>
+          <h1 id="headline">A small signal from a real public URL.</h1>
+          <p class="lede">This page starts as a Git repository, is built by Coolify, and is routed through the platform's automatically assigned tenant domain.</p>
+          <div class="route"><span>source</span> → build → route → HTTPS</div>
+        </div>
+        <div class="poster" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="mast"></div>
+          <div class="sea"></div>
+          <div class="poster-label">Coolify<br />tenant demo</div>
+        </div>
+      </section>
+
+      <section class="logbook" aria-label="Demo facts">
+        <div class="entry"><span class="entry-label">Build type</span><strong>Dockerfile + Nginx</strong></div>
+        <div class="entry"><span class="entry-label">Health route</span><strong>/health</strong></div>
+        <div class="entry"><span class="entry-label">Domain source</span><strong>Platform wildcard pool</strong></div>
+      </section>
+
+      <p class="footer-note">Release 1 proves the baseline route. The next source push will change this line and be redeployed through the same application.</p>
+    </main>
+  </body>
+</html>
